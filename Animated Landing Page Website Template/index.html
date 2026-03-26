@@ -405,28 +405,64 @@
 
 <!-- Loading Progress Bar -->
 <div class="progress-bar blue"></div>
+	<style>
+#tablaCSV table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: 'Roboto', sans-serif;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+#tablaCSV th {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: white;
+  padding: 12px;
+  text-transform: uppercase;
+  font-size: 12px;
+  letter-spacing: 1px;
+}
+
+#tablaCSV td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+}
+
+#tablaCSV tr:hover {
+  background: #f5faff;
+  transition: 0.3s;
+}
+
+#tablaCSV tr:nth-child(even) {
+  background: #fafafa;
+}
+</style>
 <script>
-fetch('datos1.csv')
+fetch('datos.csv')
   .then(response => response.text())
   .then(data => {
     const filas = data.trim().split("\n");
+
     let separador = ",";
     if (filas[0].includes(";")) separador = ";";
     else if (filas[0].includes("|")) separador = "|";
     else if (filas[0].includes("\t")) separador = "\t";
 
-	const filasLimitadas = filas.slice(0,20);
-	
-    let html = "<table style='width:100%; border-collapse: collapse;' border='1'>";
+    const filasLimitadas = filas.slice(0, 15); // encabezado + 5 datos
 
-    filas.forEach((fila, index) => {
+    let html = "<table>";
+
+    filasLimitadas.forEach((fila, index) => {
       html += "<tr>";
 
       fila.split(separador).forEach(col => {
         if (index === 0) {
-          html += `<th style="padding:8px; background:#333; color:white;">${col}</th>`;
+          html += `<th>${col}</th>`;
         } else {
-          html += `<td style="padding:8px;">${col}</td>`;
+          html += `<td>${col}</td>`;
         }
       });
 
@@ -435,11 +471,7 @@ fetch('datos1.csv')
 
     html += "</table>";
     document.getElementById("tablaCSV").innerHTML = html;
-  })
-  .catch(error => {
-    console.error("Error:", error);
   });
 </script>
-	
 </body>
 </html>
