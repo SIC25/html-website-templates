@@ -410,17 +410,24 @@ fetch('datos1.csv')
   .then(response => response.text())
   .then(data => {
     const filas = data.trim().split("\n");
+    let separador = ",";
+    if (filas[0].includes(";")) separador = ";";
+    else if (filas[0].includes("|")) separador = "|";
+    else if (filas[0].includes("\t")) separador = "\t";
+
     let html = "<table style='width:100%; border-collapse: collapse;' border='1'>";
 
     filas.forEach((fila, index) => {
       html += "<tr>";
-      fila.split(",").forEach(col => {
-        if(index === 0){
+
+      fila.split(separador).forEach(col => {
+        if (index === 0) {
           html += `<th style="padding:8px; background:#333; color:white;">${col}</th>`;
         } else {
           html += `<td style="padding:8px;">${col}</td>`;
         }
       });
+
       html += "</tr>";
     });
 
@@ -428,7 +435,7 @@ fetch('datos1.csv')
     document.getElementById("tablaCSV").innerHTML = html;
   })
   .catch(error => {
-    console.error("Error cargando CSV:", error);
+    console.error("Error:", error);
   });
 </script>
 	
