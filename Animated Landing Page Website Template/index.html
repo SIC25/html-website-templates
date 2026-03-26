@@ -213,6 +213,7 @@
 
 
 <!-- Slide 2 (#15) -->
+<div id="tablaCSV" style="margin-top:40px;"></div>
 <section class="slide fade-6 kenBurns fromLeft">
   <div class="content">
     <div class="container">
@@ -404,6 +405,32 @@
 
 <!-- Loading Progress Bar -->
 <div class="progress-bar blue"></div>
-		
+<script>
+fetch('datos1.csv')
+  .then(response => response.text())
+  .then(data => {
+    const filas = data.trim().split("\n");
+    let html = "<table style='width:100%; border-collapse: collapse;' border='1'>";
+
+    filas.forEach((fila, index) => {
+      html += "<tr>";
+      fila.split(",").forEach(col => {
+        if(index === 0){
+          html += `<th style="padding:8px; background:#333; color:white;">${col}</th>`;
+        } else {
+          html += `<td style="padding:8px;">${col}</td>`;
+        }
+      });
+      html += "</tr>";
+    });
+
+    html += "</table>";
+    document.getElementById("tablaCSV").innerHTML = html;
+  })
+  .catch(error => {
+    console.error("Error cargando CSV:", error);
+  });
+</script>
+	
 </body>
 </html>
