@@ -415,6 +415,8 @@ fetch('datos1.csv')
     else if (filas[0].includes("|")) separador = "|";
     else if (filas[0].includes("\t")) separador = "\t";
 
+	const filasLimitadas = filas.slice(0,20);
+	
     let html = "<table style='width:100%; border-collapse: collapse;' border='1'>";
 
     filas.forEach((fila, index) => {
